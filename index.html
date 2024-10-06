@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <link rel="stylesheet" href="/static/design.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Personal Finance Tracker</h1>
+        
+        <div class="balance-summary">
+            <h3>Total Balance: $<span id="balance">{{ balance }}</span></h3>
+            <h3>Total Income: $<span id="income">{{ income }}</span></h3>
+            <h3>Total Expense: $<span id="expense">{{ expense }}</span></h3>
+        </div>
+
+        <div class="form-section">
+            <form action="/add" method="POST" class="transaction-form">
+                <label for="type">Type:</label>
+                <select name="type" id="type">
+                    <option value="Income">Income</option>
+                    <option value="Expense">Expense</option>
+                </select>
+
+                <label for="description">Description:</label>
+                <input type="text" name="description" id="description" required>
+
+                <label for="amount">Amount ($):</label>
+                <input type="number" name="amount" id="amount" step="0.01" required>
+
+                <button type="submit">Add Transaction</button>
+            </form>
+        </div>
+
+        <div class="transaction-history">
+            <h2>Transaction History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction[1] }}</td>
+                        <td>{{ transaction[2] }}</td>
+                        <td>${{ transaction[3] }}</td>
+                        <td>
+                            <a href="/delete/{{ transaction[0] }}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
